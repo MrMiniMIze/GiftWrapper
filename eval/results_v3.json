@@ -1,0 +1,483 @@
+{
+  "overall_pass_rate": 0.8888888888888888,
+  "total_passing": 32,
+  "total_suggestions": 36,
+  "cases": [
+    {
+      "id": "TC01",
+      "description": "Ceramicist sister with many constraints",
+      "suggestions": [
+        {
+          "name": "Ceramics Monthly Subscription",
+          "url": "https://ceramicartsnetwork.org/ceramics-monthly/",
+          "price_estimate": "$65",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "The Perfect Loaf: The Craft and Science of Sourdough Breads",
+          "url": "https://www.amazon.com/Perfect-Loaf-Science-Sourdough-Breads/dp/0593138414",
+          "price_estimate": "$29.95",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Cotton Weighted Blanket",
+          "url": "https://www.walmart.com/browse/home/weighted-blankets/4044_539103_4756_2227165",
+          "price_estimate": "$59.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC02",
+      "description": "Retired engineer dad who dislikes experiences and clutter",
+      "suggestions": [
+        {
+          "name": "Birdwatching Guide Book",
+          "url": "https://www.walmart.com/browse/books/birdwatching-guide-books/3920_8529612_4668181_5520589",
+          "price_estimate": "$29.99",
+          "passes_budget": true,
+          "passes_constraints": false,
+          "passes_url": null,
+          "violated_keywords": [
+            "experience"
+          ],
+          "passes_all": false
+        },
+        {
+          "name": "Codebreakers' Victory: How the Allied Cryptographers Won World War II",
+          "url": "https://www.amazon.com/Codebreakers-Victory-Allied-Cryptographers-World/dp/1497638151",
+          "price_estimate": "$18.88",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Smoking Wood Chips Variety Pack (3 Flavors: Oak, Hickory, Apple)",
+          "url": "https://www.amazon.com/Smoking-Chips-Variety-Flavors-Hickory/dp/B0FSKTJK45",
+          "price_estimate": "29.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 2,
+      "total": 3,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "id": "TC03",
+      "description": "Tech-averse grandma, very tight budget",
+      "suggestions": [
+        {
+          "name": "French garden-themed journal",
+          "url": "https://beyondthefoldpaperie.com/products/bookmaking-class-french-link-stitch-journals",
+          "price_estimate": "$30",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Paris Street Scene 1000 Piece Jigsaw Puzzle",
+          "url": "https://www.amazon.com/Cityscape-Vintage-Landscape-Scenery-Challenging/dp/B0F294GBPG",
+          "price_estimate": "$25",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Garden Tools Set with Ergonomic Handle",
+          "url": "https://www.amazon.com/Garden-Gardening-Ergonomic-Handle-Storage/dp/B0DY1FLC1R",
+          "price_estimate": "$35",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC04",
+      "description": "Marathon runner with strict dietary preferences",
+      "suggestions": [
+        {
+          "name": "Running Recovery Massage Stick",
+          "url": "https://www.irunfar.com/best-recovery-tools-for-athletes",
+          "price_estimate": "$35",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Foam Roller Massage Balls Set",
+          "url": "https://www.target.com/s/massage+ball",
+          "price_estimate": "$20",
+          "passes_budget": true,
+          "passes_constraints": false,
+          "passes_url": null,
+          "violated_keywords": [
+            "foam roller"
+          ],
+          "passes_all": false
+        },
+        {
+          "name": "Training for the Uphill Athlete Book",
+          "url": "https://uphillathlete.com/product/training-for-the-uphill-athlete-book/",
+          "price_estimate": "$30",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 2,
+      "total": 3,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "id": "TC05",
+      "description": "Minimalist partner, hard to buy for",
+      "suggestions": [
+        {
+          "name": "Hario V60 Ceramic Dripper",
+          "url": "https://www.amazon.com/Hario-Ceramic-Coffee-Dripper-White/dp/B000P4D5HG",
+          "price_estimate": "$29.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Japanese Homes: Minimalism, Balance, Elegance",
+          "url": "https://www.rizzolibookstore.com/product/japanese-homes-minimalism-balance-elegance",
+          "price_estimate": "$50.00",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "MOMOCA - Premium Japanese Snack Box & Wagashi Gift Set",
+          "url": "https://momoca.store/",
+          "price_estimate": "$38.00",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC06",
+      "description": "Kid who is into very specific Lego themes",
+      "suggestions": [
+        {
+          "name": "National Geographic Kids Ultimate Dinopedia, 2nd Edition",
+          "url": "https://www.amazon.com/National-Geographic-Ultimate-Dinopedia-Second/dp/1426329059",
+          "price_estimate": "$14.99",
+          "passes_budget": true,
+          "passes_constraints": false,
+          "passes_url": null,
+          "violated_keywords": [
+            "dinosaur encyclopedia"
+          ],
+          "passes_all": false
+        },
+        {
+          "name": "LEGO Creator 3in1 Deep Sea Creatures Building Kit",
+          "url": "https://www.amazon.com/LEGO-Creator-Creatures-31088-Building/dp/B07GWZNF91",
+          "price_estimate": "$49.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "NASA Space Adventures Science Kit",
+          "url": "https://www.amazon.com/Gift-Boutique-Exploration-Astronaut-Equipment/dp/B0D9MV44TN",
+          "price_estimate": "$29.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 2,
+      "total": 3,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "id": "TC07",
+      "description": "Vinyl collector who is hard to surprise",
+      "suggestions": [
+        {
+          "name": "John Coltrane - Jazz Piano Solos Series Volume 24",
+          "url": "https://www.amazon.com/John-Coltrane-Jazz-Piano-Solos/dp/1458422151",
+          "price_estimate": "$22.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Vinyl Record Storage Shelf",
+          "url": "https://www.target.com/s/vinyl+shelf",
+          "price_estimate": "$35.00",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Berklee Jazz Piano - Piano Method Book",
+          "url": "https://www.amazon.com/Berklee-Jazz-Piano-Ray-Santisi/dp/0876390505",
+          "price_estimate": "$24.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC08",
+      "description": "New parent who needs practical help",
+      "suggestions": [
+        {
+          "name": "Canson XL Watercolor Pad",
+          "url": "https://www.walmart.com/ip/6-Pack-Canson-XL-Watercolor-Pad/1048366958",
+          "price_estimate": "$18.98",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Boba Baby Carrier",
+          "url": "https://boba.com/collections/boba-baby-carriers",
+          "price_estimate": "$43.95",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Moleskine Watercolor Album",
+          "url": "https://www.moleskine.com/en-us/shop/notebooks/art-collection/watercolor-art/",
+          "price_estimate": "$21.95",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC09",
+      "description": "Foodie chef who has everything kitchen-related",
+      "suggestions": [
+        {
+          "name": "Chili Pepper Blender",
+          "url": "https://thehandymanhaven.com/best-chili-blender/",
+          "price_estimate": "$80",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Professional Glass Spice Jars Set",
+          "url": "https://www.specialtybottle.com/glass-jars/spice-herb",
+          "price_estimate": "$35",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Italian Truffle Olive Oil",
+          "url": "https://milantruffle.com/pages/buy-truffle-oil",
+          "price_estimate": "$25",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC10",
+      "description": "Remote worker who has optimized their home office",
+      "suggestions": [
+        {
+          "name": "Adjustable Laptop Stand",
+          "url": "https://www.walmart.com/browse/electronics/laptop-stands/3944_1089430_132959_4680327",
+          "price_estimate": "$29.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Mechanical Keyboard Keycap Puller Set",
+          "url": "https://www.walmart.com/c/kp/keycap-puller",
+          "price_estimate": "$15.99",
+          "passes_budget": true,
+          "passes_constraints": false,
+          "passes_url": null,
+          "violated_keywords": [
+            "keyboard"
+          ],
+          "passes_all": false
+        },
+        {
+          "name": "Iron Pinch Block Grip Strength Set",
+          "url": "https://www.amazon.com/Strength-Climbing-Training-Strengthener-Equipment/dp/B0DY66473R",
+          "price_estimate": "$23.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 2,
+      "total": 3,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "id": "TC11",
+      "description": "Outdoorsy person who is fully geared up",
+      "suggestions": [
+        {
+          "name": "Mushroom Foraging Basket",
+          "url": "https://www.ebay.com/shop/mushroom-foraging-basket?_nkw=mushroom+foraging+basket",
+          "price_estimate": "$34.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Lightweight Portable Hammock",
+          "url": "https://www.walmart.com/browse/sports-outdoors/portable-hammocks/4125_546956_4128_1080625_2481968_9477836",
+          "price_estimate": "$39.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Compact Camp Cooking Pot Set",
+          "url": "https://www.amazon.com/camping-cookware/b?node=3400641",
+          "price_estimate": "$29.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC12",
+      "description": "Book lover who already has too many books",
+      "suggestions": [
+        {
+          "name": "High-Quality Linen Bookbinding Thread",
+          "url": "https://hemptique.com/collections/bookbinding-thread-supplies",
+          "price_estimate": "$12.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Literary-Themed Notecards",
+          "url": "https://www.theliterarygiftcompany.com/collections/notecards-correspondence",
+          "price_estimate": "$18.00",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Personalized Poetry Journal",
+          "url": "https://www.zazzle.com/personalized_poetry_journal-256282699698077591",
+          "price_estimate": "$29.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    }
+  ]
+}

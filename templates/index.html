@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gift Whisperer</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- PROFILE FORM -->
+    <section id="form-section">
+      <header>
+        <h1>🎁 Gift Whisperer</h1>
+        <p class="subtitle">Describe who you're shopping for — get ideas that actually fit.</p>
+      </header>
+
+      <form id="profile-form">
+        <div class="field">
+          <label for="name">Who are you shopping for?</label>
+          <input id="name" name="name" type="text" placeholder="e.g. my sister, Sarah, age 28" required />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="age">Age</label>
+            <input id="age" name="age" type="text" placeholder="28" />
+          </div>
+          <div class="field">
+            <label for="budget">Budget (USD)</label>
+            <input id="budget" name="budget" type="number" min="1" placeholder="75" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="occupation">Job / identity / main hobby</label>
+          <input id="occupation" name="occupation" type="text" placeholder="e.g. ceramicist in Portland" />
+        </div>
+        <div class="field">
+          <label for="excitements">Last 3 things they got excited about</label>
+          <textarea id="excitements" name="excitements" rows="2" placeholder="e.g. a Noguchi exhibit, sourdough starter, a weighted blanket"></textarea>
+        </div>
+        <div class="field">
+          <label for="last_gift">Last gift you gave them</label>
+          <input id="last_gift" name="last_gift" type="text" placeholder="e.g. pottery tool set" />
+        </div>
+        <div class="field">
+          <label for="already_owns">Things they already own <span class="hint">(comma-separated)</span></label>
+          <input id="already_owns" name="already_owns" type="text" placeholder="e.g. wheel, kiln access, most hand tools" />
+        </div>
+        <div class="field">
+          <label for="dislikes">Dislikes / avoid <span class="hint">(comma-separated)</span></label>
+          <input id="dislikes" name="dislikes" type="text" placeholder="e.g. jewelry, anything with her name on it" />
+        </div>
+        <button type="submit" id="submit-btn">Find Gifts →</button>
+      </form>
+    </section>
+
+    <!-- CHAT / RESULTS -->
+    <section id="chat-section" class="hidden">
+      <div id="chat-header">
+        <button id="restart-btn">← Start Over</button>
+        <h2 id="recipient-label"></h2>
+      </div>
+
+      <div id="messages"></div>
+
+      <div id="loading" class="hidden">
+        <span class="spinner"></span> Searching for the right gifts…
+      </div>
+
+      <div id="input-area">
+        <input id="user-input" type="text" placeholder="Give feedback or ask for a different style…" />
+        <button id="send-btn">Send</button>
+      </div>
+
+      <div id="error-banner" class="hidden"></div>
+    </section>
+  </div>
+
+  <script>
+    // ── State ──────────────────────────────────────────────────────────────
+    let recipientName = "";
+
+    // ── DOM refs ───────────────────────────────────────────────────────────
+    const formSection   = document.getElementById("form-section");
+    const chatSection   = document.getElementById("chat-section");
+    const messagesEl    = document.getElementById("messages");
+    const loadingEl     = document.getElementById("loading");
+    const errorBanner   = document.getElementById("error-banner");
+    const userInput     = document.getElementById("user-input");
+    const sendBtn       = document.getElementById("send-btn");
+    const recipientLabel = document.getElementById("recipient-label");
+
+    // ── Form submit ────────────────────────────────────────────────────────
+    document.getElementById("profile-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const data = Object.fromEntries(fd.entries());
+      recipientName = data.name || "recipient";
+      recipientLabel.textContent = `Gifts for: ${recipientName}`;
+
+      showLoading(true);
+      formSection.classList.add("hidden");
+      chatSection.classList.remove("hidden");
+
+      try {
+        const res = await fetch("/api/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        const json = await res.json();
+        if (json.error) throw new Error(json.error);
+        appendMessage("assistant", json.reply, json.suggestions);
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        showLoading(false);
+      }
+    });
+
+    // ── Send freeform message ──────────────────────────────────────────────
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keydown", (e) => { if (e.key === "Enter") sendMessage(); });
+
+    async function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+      userInput.value = "";
+      appendMessage("user", text, []);
+      await callFeedback({ action: "message", message: text });
+    }
+
+    // ── Feedback actions ───────────────────────────────────────────────────
+    async function callFeedback(payload) {
+      showLoading(true);
+      showError(null);
+      try {
+        const res = await fetch("/api/feedback", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const json = await res.json();
+        if (json.error) throw new Error(json.error);
+        appendMessage("assistant", json.reply, json.suggestions);
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    // ── Render ─────────────────────────────────────────────────────────────
+    function appendMessage(role, text, suggestions) {
+      const wrapper = document.createElement("div");
+      wrapper.className = `message ${role}`;
+
+      if (role === "user") {
+        wrapper.textContent = text;
+        messagesEl.appendChild(wrapper);
+        return;
+      }
+
+      // Strip the raw JSON block from display text
+      const displayText = text.replace(/\{"suggestions"[\s\S]*?\}\s*\}/, "").trim();
+      if (displayText) {
+        const p = document.createElement("p");
+        p.className = "assistant-text";
+        p.textContent = displayText;
+        wrapper.appendChild(p);
+      }
+
+      if (suggestions && suggestions.length > 0) {
+        const grid = document.createElement("div");
+        grid.className = "suggestions-grid";
+        suggestions.forEach((s) => {
+          grid.appendChild(buildCard(s));
+        });
+        wrapper.appendChild(grid);
+      }
+
+      messagesEl.appendChild(wrapper);
+      wrapper.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+
+    function buildCard(s) {
+      const card = document.createElement("div");
+      card.className = "gift-card";
+
+      const name = document.createElement("h3");
+      name.textContent = s.name;
+      card.appendChild(name);
+
+      const desc = document.createElement("p");
+      desc.className = "card-desc";
+      desc.textContent = s.description;
+      card.appendChild(desc);
+
+      const why = document.createElement("p");
+      why.className = "card-why";
+      why.textContent = `Why: ${s.why}`;
+      card.appendChild(why);
+
+      if (s.price_estimate) {
+        const price = document.createElement("span");
+        price.className = "card-price";
+        price.textContent = s.price_estimate;
+        card.appendChild(price);
+      }
+
+      if (s.url) {
+        const link = document.createElement("a");
+        link.href = s.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.className = "card-link";
+        link.textContent = "View Product →";
+        card.appendChild(link);
+      }
+
+      // Action buttons
+      const actions = document.createElement("div");
+      actions.className = "card-actions";
+
+      const loveBtn = makeActionBtn("❤️ Love it", "love", s.name);
+      const rejectBtn = makeActionBtn("✗ Skip", "reject", s.name);
+      const ownsBtn = makeActionBtn("Already own it", "owns", s.name);
+
+      actions.appendChild(loveBtn);
+      actions.appendChild(rejectBtn);
+      actions.appendChild(ownsBtn);
+      card.appendChild(actions);
+
+      return card;
+    }
+
+    function makeActionBtn(label, action, itemName) {
+      const btn = document.createElement("button");
+      btn.textContent = label;
+      btn.className = `action-btn action-${action}`;
+      btn.addEventListener("click", () => {
+        // Disable all buttons on this card after one click
+        btn.closest(".card-actions").querySelectorAll("button").forEach(b => b.disabled = true);
+        callFeedback({ action, item_name: itemName });
+      });
+      return btn;
+    }
+
+    // ── Helpers ────────────────────────────────────────────────────────────
+    function showLoading(on) {
+      loadingEl.classList.toggle("hidden", !on);
+      sendBtn.disabled = on;
+    }
+
+    function showError(msg) {
+      if (!msg) {
+        errorBanner.classList.add("hidden");
+        errorBanner.textContent = "";
+      } else {
+        errorBanner.textContent = msg;
+        errorBanner.classList.remove("hidden");
+      }
+    }
+
+    document.getElementById("restart-btn").addEventListener("click", async () => {
+      await fetch("/api/reset", { method: "POST" });
+      chatSection.classList.add("hidden");
+      formSection.classList.remove("hidden");
+      messagesEl.innerHTML = "";
+      document.getElementById("profile-form").reset();
+    });
+  </script>
+</body>
+</html>

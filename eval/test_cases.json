@@ -1,0 +1,230 @@
+[
+  {
+    "id": "TC01",
+    "description": "Ceramicist sister with many constraints",
+    "profile": {
+      "name": "my sister, 28",
+      "age": "28",
+      "occupation": "ceramicist in Portland",
+      "excitements": "a Noguchi exhibit, sourdough starter, a weighted blanket",
+      "last_gift": "pottery tool set",
+      "already_owns": ["wheel", "kiln access", "most hand tools"],
+      "dislikes": ["jewelry", "anything with her name on it"],
+      "budget": 75
+    },
+    "constraints": {
+      "budget": 75,
+      "banned_keywords": ["noguchi", "jewelry", "ring", "necklace", "bracelet", "earring", "wheel", "kiln"],
+      "must_not_duplicate_last_gift": "pottery tool set"
+    }
+  },
+  {
+    "id": "TC02",
+    "description": "Retired engineer dad who dislikes experiences and clutter",
+    "profile": {
+      "name": "my dad, 62",
+      "age": "62",
+      "occupation": "retired electrical engineer",
+      "excitements": "birdwatching, a podcast about WWII codebreaking, smoked brisket",
+      "last_gift": "a meat thermometer",
+      "already_owns": ["binoculars", "a Traeger", "most cookbooks"],
+      "dislikes": ["clutter", "experiences he has to schedule"],
+      "budget": 100
+    },
+    "constraints": {
+      "budget": 100,
+      "banned_keywords": ["binoculars", "traeger", "cookbook", "experience", "tour", "trip", "class", "workshop"],
+      "must_not_duplicate_last_gift": "meat thermometer"
+    }
+  },
+  {
+    "id": "TC03",
+    "description": "Tech-averse grandma, very tight budget",
+    "profile": {
+      "name": "my grandma, 78",
+      "age": "78",
+      "occupation": "retired librarian",
+      "excitements": "her garden, a PBS documentary about Paris, her book club",
+      "last_gift": "a photo album",
+      "already_owns": ["smartphone she doesn't use", "kindle she doesn't use", "every gardening book imaginable"],
+      "dislikes": ["technology", "anything requiring setup", "loud colors"],
+      "budget": 40
+    },
+    "constraints": {
+      "budget": 40,
+      "banned_keywords": ["kindle", "tablet", "app", "smart", "tech", "setup", "kindle", "phone"],
+      "must_not_duplicate_last_gift": "photo album"
+    }
+  },
+  {
+    "id": "TC04",
+    "description": "Marathon runner with strict dietary preferences",
+    "profile": {
+      "name": "my college roommate, 26",
+      "age": "26",
+      "occupation": "marathon runner and physical therapist",
+      "excitements": "qualifying for Boston, a new foam roller, a podcast about ultra-endurance athletes",
+      "last_gift": "running socks",
+      "already_owns": ["Garmin watch", "foam roller", "hydration vest", "all major running shoes brands"],
+      "dislikes": ["sugary snacks", "anything that adds bulk to run with"],
+      "budget": 60
+    },
+    "constraints": {
+      "budget": 60,
+      "banned_keywords": ["garmin", "foam roller", "hydration vest", "candy", "chocolate", "sweets", "sugar"],
+      "must_not_duplicate_last_gift": "running socks"
+    }
+  },
+  {
+    "id": "TC05",
+    "description": "Minimalist partner, hard to buy for",
+    "profile": {
+      "name": "my partner, 31",
+      "age": "31",
+      "occupation": "UX designer who practices minimalism",
+      "excitements": "a Japanese design book, Dieter Rams documentary, pour-over coffee ritual",
+      "last_gift": "a Chemex pour-over",
+      "already_owns": ["Chemex", "high-end kettle", "most specialty coffee gear", "AirPods"],
+      "dislikes": ["clutter", "branded merch", "anything with logos visible on outside"],
+      "budget": 80
+    },
+    "constraints": {
+      "budget": 80,
+      "banned_keywords": ["chemex", "kettle", "airpods", "logo", "branded", "clutter", "knickknack"],
+      "must_not_duplicate_last_gift": "Chemex pour-over"
+    }
+  },
+  {
+    "id": "TC06",
+    "description": "Kid who is into very specific Lego themes",
+    "profile": {
+      "name": "my nephew, 10",
+      "age": "10",
+      "occupation": "student obsessed with space and dinosaurs",
+      "excitements": "a NASA exhibit, Jurassic Park movie, building Lego Technic sets",
+      "last_gift": "Lego Technic Mars Rover",
+      "already_owns": ["most standard Lego Space sets", "dinosaur encyclopedias", "telescope"],
+      "dislikes": ["board games that take too long", "anything babyish"],
+      "budget": 50
+    },
+    "constraints": {
+      "budget": 50,
+      "banned_keywords": ["telescope", "dinosaur encyclopedia", "baby"],
+      "must_not_duplicate_last_gift": "Lego Technic Mars Rover"
+    }
+  },
+  {
+    "id": "TC07",
+    "description": "Vinyl collector who is hard to surprise",
+    "profile": {
+      "name": "my brother, 35",
+      "age": "35",
+      "occupation": "music teacher and vinyl record collector",
+      "excitements": "a Coltrane box set he found, a new local record shop, learning to play jazz piano",
+      "last_gift": "a record cleaning kit",
+      "already_owns": ["Pro-Ject turntable", "extensive jazz collection", "record cleaning kit"],
+      "dislikes": ["digital music subscriptions", "Bluetooth speakers", "pop music gifts"],
+      "budget": 90
+    },
+    "constraints": {
+      "budget": 90,
+      "banned_keywords": ["spotify", "apple music", "bluetooth", "cleaning kit", "pro-ject"],
+      "must_not_duplicate_last_gift": "record cleaning kit"
+    }
+  },
+  {
+    "id": "TC08",
+    "description": "New parent who needs practical help",
+    "profile": {
+      "name": "my friend who just had a baby, 33",
+      "age": "33",
+      "occupation": "new parent and former graphic designer",
+      "excitements": "finally sleeping 4 hours straight, a great baby carrier recommendation, getting back to watercolor painting",
+      "last_gift": "a baby monitor",
+      "already_owns": ["baby monitor", "stroller", "crib", "most basic baby gear"],
+      "dislikes": ["more baby toys (they have too many)", "parenting advice books"],
+      "budget": 55
+    },
+    "constraints": {
+      "budget": 55,
+      "banned_keywords": ["parenting book", "advice", "toy", "stroller", "baby monitor", "crib"],
+      "must_not_duplicate_last_gift": "baby monitor"
+    }
+  },
+  {
+    "id": "TC09",
+    "description": "Foodie chef who has everything kitchen-related",
+    "profile": {
+      "name": "my aunt, 52",
+      "age": "52",
+      "occupation": "semi-professional home chef who competes in cooking competitions",
+      "excitements": "winning a local chili contest, a new Sichuan cookbook, a truffle she found at the farmers market",
+      "last_gift": "a Japanese knife set",
+      "already_owns": ["KitchenAid mixer", "every knife imaginable", "Instant Pot", "Le Creuset set", "most spices"],
+      "dislikes": ["basic kitchen gadgets", "anything she'd find at Bed Bath & Beyond"],
+      "budget": 85
+    },
+    "constraints": {
+      "budget": 85,
+      "banned_keywords": ["kitchenaid", "knife", "instant pot", "le creuset", "basic", "gadget"],
+      "must_not_duplicate_last_gift": "Japanese knife set"
+    }
+  },
+  {
+    "id": "TC10",
+    "description": "Remote worker who has optimized their home office",
+    "profile": {
+      "name": "my coworker, 29",
+      "age": "29",
+      "occupation": "senior software engineer, fully remote, home office obsessive",
+      "excitements": "a new mechanical keyboard they built, a Lego Architecture set, bouldering",
+      "last_gift": "a desk lamp",
+      "already_owns": ["standing desk", "ultrawide monitor", "custom mechanical keyboard", "ergonomic chair", "webcam"],
+      "dislikes": ["cable clutter solutions (already done)", "more tech peripherals", "corporate-feeling gifts"],
+      "budget": 70
+    },
+    "constraints": {
+      "budget": 70,
+      "banned_keywords": ["keyboard", "monitor", "webcam", "chair", "desk", "cable", "peripheral", "corporate"],
+      "must_not_duplicate_last_gift": "desk lamp"
+    }
+  },
+  {
+    "id": "TC11",
+    "description": "Outdoorsy person who is fully geared up",
+    "profile": {
+      "name": "my best friend, 27",
+      "age": "27",
+      "occupation": "park ranger who backpacks every weekend",
+      "excitements": "completing the John Muir Trail, a new bivouac spot they found, foraging for mushrooms",
+      "last_gift": "trekking poles",
+      "already_owns": ["all major backpacking gear", "water filter", "tent", "sleeping bag", "most trail guides"],
+      "dislikes": ["anything heavy to carry", "brand-name outdoor fashion"],
+      "budget": 65
+    },
+    "constraints": {
+      "budget": 65,
+      "banned_keywords": ["tent", "sleeping bag", "filter", "trail guide", "fashion", "heavy"],
+      "must_not_duplicate_last_gift": "trekking poles"
+    }
+  },
+  {
+    "id": "TC12",
+    "description": "Book lover who already has too many books",
+    "profile": {
+      "name": "my mom, 58",
+      "age": "58",
+      "occupation": "high school English teacher and voracious reader",
+      "excitements": "a Hilary Mantel novel she just finished, a bookbinding workshop, her school's poetry club",
+      "last_gift": "a signed copy of a novel",
+      "already_owns": ["hundreds of books", "Kindle", "multiple bookshelves", "every bookmark imaginable"],
+      "dislikes": ["more books she won't have time to read", "tech gifts", "candles"],
+      "budget": 50
+    },
+    "constraints": {
+      "budget": 50,
+      "banned_keywords": ["book", "kindle", "bookmark", "candle", "tech", "ebook"],
+      "must_not_duplicate_last_gift": "signed novel"
+    }
+  }
+]

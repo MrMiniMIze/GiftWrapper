@@ -1,0 +1,483 @@
+{
+  "overall_pass_rate": 0.8888888888888888,
+  "total_passing": 32,
+  "total_suggestions": 36,
+  "cases": [
+    {
+      "id": "TC01",
+      "description": "Ceramicist sister with many constraints",
+      "suggestions": [
+        {
+          "name": "NOGY Rice Paper Lamp",
+          "url": "https://www.nogy.shop/",
+          "price_estimate": "$64.99",
+          "passes_budget": true,
+          "passes_constraints": false,
+          "passes_url": null,
+          "violated_keywords": [
+            "noguchi"
+          ],
+          "passes_all": false
+        },
+        {
+          "name": "Sourdough Proofing Basket",
+          "url": "https://www.walmart.com/c/kp/sourdough-proofing-basket",
+          "price_estimate": "$29.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Cotton Cooling Weighted Blanket",
+          "url": "https://homeisd.com/weighted-blanket-alternatives/",
+          "price_estimate": "$72.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 2,
+      "total": 3,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "id": "TC02",
+      "description": "Retired engineer dad who dislikes experiences and clutter",
+      "suggestions": [
+        {
+          "name": "Bird Feeder with Camera",
+          "url": "https://www.walmart.com/browse/patio-garden/bird-feeders-with-camera/5428_7679090_5754982",
+          "price_estimate": "$79.99",
+          "passes_budget": true,
+          "passes_constraints": false,
+          "passes_url": null,
+          "violated_keywords": [
+            "experience"
+          ],
+          "passes_all": false
+        },
+        {
+          "name": "Codebreakers' Victory Book",
+          "url": "https://www.amazon.com/Codebreakers-Victory-Allied-Cryptographers-World/dp/1497638151",
+          "price_estimate": "$15.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Stainless Steel Smoker Box",
+          "url": "https://kitchenably.com/best-smoker-box-for-brisket/",
+          "price_estimate": "$24.99",
+          "passes_budget": true,
+          "passes_constraints": false,
+          "passes_url": null,
+          "violated_keywords": [
+            "experience"
+          ],
+          "passes_all": false
+        }
+      ],
+      "passing": 1,
+      "total": 3,
+      "pass_rate": 0.3333333333333333
+    },
+    {
+      "id": "TC03",
+      "description": "Tech-averse grandma, very tight budget",
+      "suggestions": [
+        {
+          "name": "Garden Tools Set",
+          "url": "https://www.amazon.com/Garden-Gardening-Ergonomic-Handle-Storage/dp/B0DY1FLC1R",
+          "price_estimate": "$39.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Paris Themed Jigsaw Puzzle",
+          "url": "https://www.puzzlewarehouse.com/paris-jigsaw-puzzles/",
+          "price_estimate": "$24.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Book Club Discussion Guide for Classics",
+          "url": "https://bookclubs.com/discussion-guides",
+          "price_estimate": "$19.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC04",
+      "description": "Marathon runner with strict dietary preferences",
+      "suggestions": [
+        {
+          "name": "Resistance Bands Set for Runners",
+          "url": "https://www.runnersworld.com/gear/g36607547/resistance-bands/",
+          "price_estimate": "$49.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Technical Running Cap",
+          "url": "https://www.amazon.com/East-Peak-Technical-Breathable-Adjustable/dp/B0D58Y89NM",
+          "price_estimate": "$29.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Running Journal for Tracking Miles and Goals",
+          "url": "https://thegirlthatruns.com/vetted/best-running-journals-paper-mileage-log/",
+          "price_estimate": "$22.95",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC05",
+      "description": "Minimalist partner, hard to buy for",
+      "suggestions": [
+        {
+          "name": "Japanese Design Since 1945: Comprehensive Visual History",
+          "url": "https://www.amazon.com/Japanese-Design-Since-1945-Sourcebook/dp/1419750542",
+          "price_estimate": "$60",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Cresimo Stainless Steel Thermal Carafe",
+          "url": "https://www.cresimo.com/products/68-oz-stainless-steel-thermos-thermal-carafe",
+          "price_estimate": "$24.95",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Dieter Rams Book (Vintage Collection)",
+          "url": "https://www.ebay.com/shop/dieter-rams-book?_nkw=dieter+rams+book",
+          "price_estimate": "$35",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC06",
+      "description": "Kid who is into very specific Lego themes",
+      "suggestions": [
+        {
+          "name": "Ultimate Sticker Book: Dinosaurs",
+          "url": "https://www.amazon.com/Ultimate-Sticker-Book-Dinosaurs-Reusable/dp/1465447180",
+          "price_estimate": "$12.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Ravensburger Solar System 540 Piece 3D Jigsaw Puzzle",
+          "url": "https://www.amazon.com/Ravensburger-11668-Puzzle-System-Multicolor/dp/B079NPW2DZ",
+          "price_estimate": "$30.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Dinosaur Fossil Excavation Kit",
+          "url": "https://www.target.com/s/dinosaur+excavation+toys",
+          "price_estimate": "$24.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC07",
+      "description": "Vinyl collector who is hard to surprise",
+      "suggestions": [
+        {
+          "name": "Hal Leonard Jazz Piano Method Book 1",
+          "url": "https://www.halleonard.com/product/131102/hal-leonard-jazz-piano-method-book-1",
+          "price_estimate": "$18.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Vinyl Records Storage Box",
+          "url": "https://www.ebay.com/shop/vinyl-records-storage-box?_nkw=vinyl+records+storage+box",
+          "price_estimate": "$30.00",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Jazz Classics Vinyl Compilation",
+          "url": "https://www.ebay.com/b/Charles-Mingus-Vinyl-Records/176985/bn_7121968302",
+          "price_estimate": "$25.00",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC08",
+      "description": "New parent who needs practical help",
+      "suggestions": [
+        {
+          "name": "Watercolor Paint Travel Kit by Artist's Loft\u2122",
+          "url": "https://www.michaels.com/product/watercolor-paint-travel-kit-by-artist's-loft-10720212",
+          "price_estimate": "$30",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Adjustable Ergonomic Baby Carrier",
+          "url": "https://www.target.com/s/ergonomic+baby+carrier",
+          "price_estimate": "$45",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Luxury Memory Foam Anti-Fatigue Sleep Mask",
+          "url": "https://www.sleeping.com/products/luxury-memory-foam-anti-fatigue-sleep-mask",
+          "price_estimate": "$22",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC09",
+      "description": "Foodie chef who has everything kitchen-related",
+      "suggestions": [
+        {
+          "name": "Sichuan Pepper Mill",
+          "url": "https://www.amazon.com/OENJRLDSL-Kitchen-Supplies-Peppercorns-Seasoning/dp/B0D1RY351M",
+          "price_estimate": "$22.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "White Truffle Oil",
+          "url": "https://www.homedepot.com/p/White-Truffle-Oil-5-6-oz-Bottle-8086638/336801160",
+          "price_estimate": "$14.97",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "High-Quality Chili Powder Set",
+          "url": "https://www.tasteofhome.com/article/best-chili-powder/",
+          "price_estimate": "$24.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC10",
+      "description": "Remote worker who has optimized their home office",
+      "suggestions": [
+        {
+          "name": "Lego Architecture Studio Accessory Set",
+          "url": "https://www.lego.com/en-us/themes/architecture",
+          "price_estimate": "$65",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Bouldering Chalk Bag with Quick-Clip",
+          "url": "https://www.amazon.com/goldhik-Bouldering-Quick-Clip-Gymnastics-Weightlifting/dp/B0BFHRM1KT",
+          "price_estimate": "$25",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Custom Metal + Acrylic Keyboard Wrist Rest",
+          "url": "https://www.amazon.com/Keyboard-Acrylic-Transparent-Ergonomic-Mechanical/dp/B0C7RMQ5LF",
+          "price_estimate": "$30",
+          "passes_budget": true,
+          "passes_constraints": false,
+          "passes_url": null,
+          "violated_keywords": [
+            "keyboard"
+          ],
+          "passes_all": false
+        }
+      ],
+      "passing": 2,
+      "total": 3,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "id": "TC11",
+      "description": "Outdoorsy person who is fully geared up",
+      "suggestions": [
+        {
+          "name": "Peterson Field Guide to Mushrooms of North America",
+          "url": "https://www.amazon.com/Peterson-Mushrooms-America-Second-Guides/dp/0544236114",
+          "price_estimate": "$20.00",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Lightweight Camping Hammock",
+          "url": "https://www.warbonnetoutdoors.com/hammocks/",
+          "price_estimate": "$55.00",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "LOCHBY Mini Field Journal",
+          "url": "https://www.lochby.com/products/mini-field-journal",
+          "price_estimate": "$25.00",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    {
+      "id": "TC12",
+      "description": "Book lover who already has too many books",
+      "suggestions": [
+        {
+          "name": "Vintage Typewriter-Themed Pen",
+          "url": "https://www.ebay.com/sch/i.html?_nkw=typewriter+pen&_sop=12",
+          "price_estimate": "$22.95",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Deluxe Leather Bookbinding Toolkit",
+          "url": "https://www.weaverleathersupply.com/products/book-binding-kit",
+          "price_estimate": "$45.00",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        },
+        {
+          "name": "Poetry Journal with Writing Prompts",
+          "url": "https://www.pathsoflearning.net/318447/best-poetry-journal-notebooks/",
+          "price_estimate": "$24.99",
+          "passes_budget": true,
+          "passes_constraints": true,
+          "passes_url": null,
+          "violated_keywords": [],
+          "passes_all": true
+        }
+      ],
+      "passing": 3,
+      "total": 3,
+      "pass_rate": 1.0
+    }
+  ]
+}
