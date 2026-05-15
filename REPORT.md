@@ -50,21 +50,21 @@ Getting the AI behavior right is genuinely hard for three reasons. First, the mo
 
 ---
 
-## Part 3: Code Walkthrough (~260 words)
+## Part 3: Code Walkthrough (~280 words)
 
 **Tracing a user click of "Love it" on a suggestion:**
 
-1. **`templates/index.html`, `makeActionBtn()` → `callFeedback()`:** When the user clicks "Love it," the browser calls `callFeedback({ action: "love", item_name: "Sourdough Starter Kit" })`. This sends a `POST /api/feedback` request with that JSON body.
+1. **`templates/index.html:308`, `buildCard()`:** Each gift card is built with an inline `makeBtn()` closure. When the user clicks "Love it," the handler checks `isStreaming` to prevent double-firing, then calls `streamSSE("/api/feedback", { action: "love", item_name: "Sourdough Starter Kit" })` at line 382. The card immediately shows a status label ("❤️ Loved — finding similar ideas…") so the user sees feedback before the server responds.
 
-2. **`app.py:79`, `feedback()` route:** Flask reads the session ID from the cookie and retrieves the in-memory conversation state (`_sessions[sid]`). The `action == "love"` branch appends a user message to `state["messages"]`: `"I love the 'Sourdough Starter Kit' suggestion! Can you give me 2 more ideas in a similar vein?"`. This is the mechanism by which preference learning happens — the model sees its own earlier suggestion praised in the conversation history and uses that context.
+2. **`templates/index.html:168`, `streamSSE()`:** Opens a `POST /api/feedback` fetch, then reads the response body as a `ReadableStream`. Each SSE line is parsed and dispatched to `handleSSEEvent()` at line 210. While the server is searching, `handleSSEEvent` updates the loading text to `Searching for "X"…` for each `{type: "searching"}` event. Three shimmer skeleton cards are visible in the message list throughout.
 
-3. **`app.py:101` → `gift_engine.py:91`, `run_turn()`:** The updated messages list, recipient profile, and rejected list are passed to `run_turn`. The function rebuilds the system prompt from the profile (including the current `rejected` list), prepends it as the system message, and enters an agentic loop. Inside the loop, the model decides to call `search_product` for each new idea.
+3. **`app.py:140`, `feedback()` route:** Flask reads the session UUID from the signed cookie and retrieves `_sessions[sid]`. The `action == "love"` branch at line 166 appends a natural-language turn to `state["messages"]`: `"I love the 'Sourdough Starter Kit' suggestion! Can you give me 2 more ideas in a similar vein?"`. This is how preference learning works — the model reads its own earlier suggestion praised in the conversation history.
 
-4. **`gift_engine.py:108` → `product_search.py:10`, `search_product()`:** Each tool call triggers a DuckDuckGo search and an HTTP HEAD request to verify the top URL resolves. The result `{url, title, resolved}` is returned to the model as a tool message.
+4. **`app.py:180` → `gift_engine.py:121`, `run_turn_stream()`:** The updated messages list is passed to the generator. At line 134 it enters a bounded loop (`for _ in range(MAX_TOOL_ITERATIONS)`). Each iteration the model either emits tool calls or a final text response. For each tool call at line 147, a `{type: "searching"}` event is yielded back through `_sse_stream()` to the browser in real time.
 
-5. **`gift_engine.py:122`, final text response:** Once the model emits a response without tool calls, `run_turn` appends it to `messages` and returns. Back in `app.py`, `parse_suggestions()` extracts the `{"suggestions": [...]}` JSON block from the reply text (scanning for the first brace-balanced JSON object containing a `"suggestions"` key). The route returns `{reply, suggestions}` to the browser.
+5. **`gift_engine.py:147` → `product_search.py:18`, `search_product()`:** Each tool call triggers `_ddg_search()` (line 35) with up to 3 retries, then `_check_url()` (line 52) via HTTP HEAD. The result `{url, title, resolved}` — or a `"note"` field explicitly telling the model not to present the suggestion if unverified — is returned as a tool message. Once the model emits a response with no tool calls, line 160 yields `{type: "done", text}`. Back in `app.py:92`, `parse_suggestions()` scans the text for the first brace-balanced JSON object containing a `"suggestions"` key and returns the list to the browser.
 
-**Design decision:** Conversation state is stored in a Python dict (`_sessions`) keyed by a per-session UUID rather than a database. The alternative was SQLite, which would survive server restarts and support concurrent users. I rejected SQLite because this is a local demo app where the grader runs one session, Flask debug mode restarts are frequent during development, and the added setup cost (schema migration, connection pooling) outweighed the benefit. The stateless-per-restart behavior is a known, acceptable trade-off documented in the README.
+**Design decision:** Conversation state is stored in a Python dict (`_sessions`, `app.py:27`) keyed by a per-session UUID rather than a database. The alternative was SQLite, which would survive server restarts and support concurrent users. I rejected SQLite because this is a local demo app where the grader runs one session, Flask debug mode restarts are frequent during development, and the added setup cost (schema migration, connection pooling) outweighed the benefit. The stateless-per-restart behavior is a known, acceptable trade-off documented in the README.
 
 ---
 

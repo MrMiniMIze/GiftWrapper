@@ -12,8 +12,8 @@ Gift Whisperer uses a multi-turn conversation with OpenAI's GPT-4o-mini to gener
 
 ```bash
 # 1. Clone and enter the project
-git clone <repo-url>
-cd gift-whisperer
+git clone https://github.com/MrMiniMIze/GiftWrapper.git
+cd GiftWrapper
 
 # 2. Create and activate a virtual environment
 python3 -m venv venv
@@ -31,6 +31,8 @@ python app.py
 ```
 
 Then open http://localhost:5001 in your browser.
+
+> **Note:** On startup you may see a `UserWarning: FLASK_SECRET is not set`. This is expected and harmless for local use — the app runs normally.
 
 ## Running the eval
 
