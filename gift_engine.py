@@ -7,7 +7,9 @@ from product_search import search_product
 load_dotenv()
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
-MODEL = "gpt-4o-mini"
+MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
+MAX_TOOL_ITERATIONS = 12
+MAX_HISTORY_MESSAGES = 30  # first message + last 29
 
 TOOLS = [
     {
@@ -43,7 +45,7 @@ Recipient profile:
 {profile}
 
 HARD CONSTRAINTS — violating any of these is an automatic failure:
-- Budget: each gift must cost ${budget} or less. State the specific price.
+- Budget: each gift must cost between ${budget_min} and ${budget} (inclusive). Gifts far below the minimum signal low effort. Always state the specific price with a $ sign.
 - Already owns — do NOT suggest these items OR accessories/add-ons that only make sense if you own them: {already_owns}
   * Example: if they own a keyboard, do not suggest keyboard accessories (wrist rests, keycap sets, switches).
   * Example: if they own a Chemex, do not suggest Chemex filters or Chemex-specific accessories.
@@ -60,7 +62,7 @@ Rules:
 1. Suggest exactly 3 gifts per turn.
 2. Before presenting any suggestion, you MUST call search_product for it.
 3. Only present suggestions where search_product returns resolved=true.
-4. If search_product returns resolved=false, silently try a different product instead.
+4. If search_product returns resolved=false OR includes a "note" field, you MUST try a completely different product — do NOT present it.
 5. Format each suggestion as JSON in your response using this exact structure:
    {{"suggestions": [{{"name": "...", "description": "...", "price_estimate": "$XX", "url": "...", "why": "..."}}]}}
 6. The "why" field must connect this gift to the recipient's specific interests — never generic praise.
@@ -70,9 +72,12 @@ Rules:
 
 
 def build_system_prompt(profile: dict, rejected: list[str]) -> str:
+    budget = int(profile.get("budget", 50))
+    budget_min = max(10, round(budget * 0.4))
     return SYSTEM_TEMPLATE.format(
         profile=_format_profile(profile),
-        budget=profile.get("budget", "unknown"),
+        budget=budget,
+        budget_min=budget_min,
         already_owns=", ".join(profile.get("already_owns", [])) or "none listed",
         dislikes=", ".join(profile.get("dislikes", [])) or "none listed",
         rejected=", ".join(rejected) or "none yet",
@@ -94,16 +99,39 @@ def _format_profile(profile: dict) -> str:
     return "\n".join(parts)
 
 
-def run_turn(messages: list, profile: dict, rejected: list[str]) -> tuple[str, list]:
+def build_initial_message(profile: dict) -> dict:
+    """Single source of truth for the opening user message sent to the LLM."""
+    return {
+        "role": "user",
+        "content": (
+            f"Please suggest gifts for: {profile['name']}, age {profile['age']}, "
+            f"{profile['occupation']}. They've recently been excited about: {profile['excitements']}. "
+            f"The last gift I gave them was: {profile['last_gift']}. Budget: ${int(profile['budget'])}."
+        ),
+    }
+
+
+def _trim_messages(messages: list) -> list:
+    """Keep the first message plus the most recent history to avoid hitting token limits."""
+    if len(messages) <= MAX_HISTORY_MESSAGES:
+        return messages
+    return [messages[0]] + messages[-(MAX_HISTORY_MESSAGES - 1):]
+
+
+def run_turn_stream(messages: list, profile: dict, rejected: list[str]):
     """
-    Run one LLM turn with function-calling loop.
-    Returns (assistant_text, updated_messages).
+    Generator that runs the agentic tool-call loop and yields progress events.
+
+    Event shapes:
+      {"type": "searching", "query": str}
+      {"type": "done",      "text": str}
+      {"type": "error",     "message": str}
     """
     system_prompt = build_system_prompt(profile, rejected)
-    full_messages = [{"role": "system", "content": system_prompt}] + messages
+    trimmed = _trim_messages(messages)
+    full_messages = [{"role": "system", "content": system_prompt}] + trimmed
 
-    # Agentic loop: keep calling until no more tool calls
-    while True:
+    for _ in range(MAX_TOOL_ITERATIONS):
         response = client.chat.completions.create(
             model=MODEL,
             messages=full_messages,
@@ -113,33 +141,43 @@ def run_turn(messages: list, profile: dict, rejected: list[str]) -> tuple[str, l
         msg = response.choices[0].message
 
         if msg.tool_calls:
-            # Add assistant message with tool calls
             full_messages.append(msg)
-
-            # Execute each tool call
             for tc in msg.tool_calls:
                 args = json.loads(tc.function.arguments)
-                result = search_product(args["query"], args.get("budget", profile.get("budget", 9999)))
+                yield {"type": "searching", "query": args["query"]}
+                result = search_product(
+                    args["query"],
+                    args.get("budget", profile.get("budget", 9999)),
+                )
                 full_messages.append({
                     "role": "tool",
                     "tool_call_id": tc.id,
                     "content": json.dumps(result),
                 })
         else:
-            # Final text response
             assistant_text = msg.content or ""
-            # Append to the user-facing messages (without system)
             messages.append({"role": "assistant", "content": assistant_text})
-            return assistant_text, messages
+            yield {"type": "done", "text": assistant_text}
+            return
+
+    yield {"type": "error", "message": "Search took too long — please try again."}
+
+
+def run_turn(messages: list, profile: dict, rejected: list[str]) -> tuple[str, list]:
+    """Synchronous wrapper around run_turn_stream (used by the eval)."""
+    for event in run_turn_stream(messages, profile, rejected):
+        if event["type"] == "done":
+            return event["text"], messages
+        if event["type"] == "error":
+            raise RuntimeError(event["message"])
+    raise RuntimeError("Agent loop exited without producing a response.")
 
 
 def parse_suggestions(text: str) -> list[dict]:
     """Extract the suggestions JSON block from assistant text."""
     import re
-    # Strip markdown code fences if present
     text = re.sub(r"```(?:json)?\s*", "", text)
 
-    # Find the first '{' that begins a block containing "suggestions"
     for match in re.finditer(r"\{", text):
         start = match.start()
         depth = 0

@@ -26,7 +26,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from dotenv import load_dotenv
 load_dotenv()
 
-from gift_engine import run_turn, parse_suggestions
+from gift_engine import run_turn, parse_suggestions, build_initial_message
 from product_search import _check_url
 
 
@@ -106,16 +106,7 @@ def run_case(tc: dict, check_url: bool) -> dict:
     profile = tc["profile"]
     constraints = tc["constraints"]
 
-    messages = [
-        {
-            "role": "user",
-            "content": (
-                f"Please suggest gifts for: {profile['name']}, age {profile['age']}, "
-                f"{profile['occupation']}. They've recently been excited about: {profile['excitements']}. "
-                f"The last gift I gave them was: {profile['last_gift']}. Budget: ${profile['budget']}."
-            ),
-        }
-    ]
+    messages = [build_initial_message(profile)]
 
     print(f"\n{'='*60}")
     print(f"Running {tc['id']}: {tc['description']}")

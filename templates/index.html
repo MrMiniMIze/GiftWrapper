@@ -4,165 +4,284 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gift Whisperer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>" />
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
   <div id="app">
-    <!-- PROFILE FORM -->
+
+    <!-- ── FORM ──────────────────────────────────────────────────────────── -->
     <section id="form-section">
       <header>
-        <h1>🎁 Gift Whisperer</h1>
-        <p class="subtitle">Describe who you're shopping for — get ideas that actually fit.</p>
+        <div class="brand">🎁 Gift Whisperer</div>
+        <h1>Find the perfect gift,<br>every time.</h1>
+        <p class="subtitle">Describe who you're shopping for and get curated ideas that actually fit.</p>
       </header>
 
       <form id="profile-form">
+        <div class="form-group-label">Recipient</div>
+
         <div class="field">
           <label for="name">Who are you shopping for?</label>
-          <input id="name" name="name" type="text" placeholder="e.g. my sister, Sarah, age 28" required />
+          <input id="name" name="name" type="text" placeholder="e.g. my sister Sarah, age 28" required />
         </div>
+
         <div class="field-row">
           <div class="field">
-            <label for="age">Age</label>
+            <label for="age">Age <span class="optional-badge">optional</span></label>
             <input id="age" name="age" type="text" placeholder="28" />
           </div>
           <div class="field">
             <label for="budget">Budget (USD)</label>
             <input id="budget" name="budget" type="number" min="1" placeholder="75" required />
+            <div class="budget-chips">
+              <button type="button" class="budget-chip" data-val="25">$25</button>
+              <button type="button" class="budget-chip" data-val="50">$50</button>
+              <button type="button" class="budget-chip" data-val="100">$100</button>
+              <button type="button" class="budget-chip" data-val="150">$150</button>
+              <button type="button" class="budget-chip" data-val="200">$200</button>
+            </div>
           </div>
         </div>
+
+        <div class="form-group-label">Their Story</div>
+
         <div class="field">
-          <label for="occupation">Job / identity / main hobby</label>
+          <label for="occupation">Job / identity / main hobby <span class="optional-badge">optional</span></label>
           <input id="occupation" name="occupation" type="text" placeholder="e.g. ceramicist in Portland" />
         </div>
         <div class="field">
-          <label for="excitements">Last 3 things they got excited about</label>
+          <label for="excitements">Last 3 things they got excited about <span class="optional-badge">optional</span></label>
           <textarea id="excitements" name="excitements" rows="2" placeholder="e.g. a Noguchi exhibit, sourdough starter, a weighted blanket"></textarea>
         </div>
         <div class="field">
-          <label for="last_gift">Last gift you gave them</label>
+          <label for="last_gift">Last gift you gave them <span class="optional-badge">optional</span></label>
           <input id="last_gift" name="last_gift" type="text" placeholder="e.g. pottery tool set" />
         </div>
+
+        <div class="form-group-label">Preferences</div>
+
         <div class="field">
-          <label for="already_owns">Things they already own <span class="hint">(comma-separated)</span></label>
+          <label for="already_owns">Things they already own <span class="optional-badge">optional</span></label>
           <input id="already_owns" name="already_owns" type="text" placeholder="e.g. wheel, kiln access, most hand tools" />
         </div>
         <div class="field">
-          <label for="dislikes">Dislikes / avoid <span class="hint">(comma-separated)</span></label>
+          <label for="dislikes">Dislikes / avoid <span class="optional-badge">optional</span></label>
           <input id="dislikes" name="dislikes" type="text" placeholder="e.g. jewelry, anything with her name on it" />
         </div>
+
         <button type="submit" id="submit-btn">Find Gifts →</button>
       </form>
     </section>
 
-    <!-- CHAT / RESULTS -->
+    <!-- ── CHAT ──────────────────────────────────────────────────────────── -->
     <section id="chat-section" class="hidden">
       <div id="chat-header">
         <button id="restart-btn">← Start Over</button>
         <h2 id="recipient-label"></h2>
       </div>
 
-      <div id="messages"></div>
+      <div id="messages" aria-live="polite" aria-label="Gift suggestions"></div>
 
-      <div id="loading" class="hidden">
-        <span class="spinner"></span> Searching for the right gifts…
+      <div id="loading" class="hidden" role="status">
+        <span class="spinner"></span>
+        <span id="loading-text">Searching for the right gifts…</span>
       </div>
 
       <div id="input-area">
-        <input id="user-input" type="text" placeholder="Give feedback or ask for a different style…" />
+        <input id="user-input" type="text" placeholder="Refine the search, ask for a different style…" />
         <button id="send-btn">Send</button>
       </div>
 
-      <div id="error-banner" class="hidden"></div>
+      <div id="error-banner" class="hidden" role="alert"></div>
     </section>
+
   </div>
 
   <script>
     // ── State ──────────────────────────────────────────────────────────────
     let recipientName = "";
+    let isStreaming   = false;
+    let errorTimer    = null;
 
     // ── DOM refs ───────────────────────────────────────────────────────────
-    const formSection   = document.getElementById("form-section");
-    const chatSection   = document.getElementById("chat-section");
-    const messagesEl    = document.getElementById("messages");
-    const loadingEl     = document.getElementById("loading");
-    const errorBanner   = document.getElementById("error-banner");
-    const userInput     = document.getElementById("user-input");
-    const sendBtn       = document.getElementById("send-btn");
+    const formSection    = document.getElementById("form-section");
+    const chatSection    = document.getElementById("chat-section");
+    const messagesEl     = document.getElementById("messages");
+    const loadingEl      = document.getElementById("loading");
+    const loadingText    = document.getElementById("loading-text");
+    const errorBanner    = document.getElementById("error-banner");
+    const userInput      = document.getElementById("user-input");
+    const sendBtn        = document.getElementById("send-btn");
     const recipientLabel = document.getElementById("recipient-label");
+    const budgetInput    = document.getElementById("budget");
+
+    // ── Budget chips ───────────────────────────────────────────────────────
+    document.querySelectorAll(".budget-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        budgetInput.value = chip.dataset.val;
+        document.querySelectorAll(".budget-chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+      });
+    });
+    budgetInput.addEventListener("input", () => {
+      document.querySelectorAll(".budget-chip").forEach(c => c.classList.remove("active"));
+    });
+
+    // ── Warn before leaving mid-conversation ──────────────────────────────
+    window.addEventListener("beforeunload", (e) => {
+      if (!chatSection.classList.contains("hidden")) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    });
 
     // ── Form submit ────────────────────────────────────────────────────────
     document.getElementById("profile-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const fd = new FormData(e.target);
-      const data = Object.fromEntries(fd.entries());
+      const data = Object.fromEntries(new FormData(e.target).entries());
       recipientName = data.name || "recipient";
       recipientLabel.textContent = `Gifts for: ${recipientName}`;
 
-      showLoading(true);
       formSection.classList.add("hidden");
       chatSection.classList.remove("hidden");
+      document.body.classList.add("chat-active");
 
-      try {
-        const res = await fetch("/api/start", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-        const json = await res.json();
-        if (json.error) throw new Error(json.error);
-        appendMessage("assistant", json.reply, json.suggestions);
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        showLoading(false);
-      }
+      await streamSSE("/api/start", data);
     });
 
     // ── Send freeform message ──────────────────────────────────────────────
     sendBtn.addEventListener("click", sendMessage);
-    userInput.addEventListener("keydown", (e) => { if (e.key === "Enter") sendMessage(); });
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) sendMessage();
+    });
 
     async function sendMessage() {
       const text = userInput.value.trim();
-      if (!text) return;
+      if (!text || isStreaming) return;
       userInput.value = "";
       appendMessage("user", text, []);
-      await callFeedback({ action: "message", message: text });
+      await streamSSE("/api/feedback", { action: "message", message: text });
     }
 
-    // ── Feedback actions ───────────────────────────────────────────────────
-    async function callFeedback(payload) {
-      showLoading(true);
+    // ── SSE streaming fetch ────────────────────────────────────────────────
+    async function streamSSE(url, body) {
+      setStreaming(true);
+      showLoadingSkeleton();
       showError(null);
+
       try {
-        const res = await fetch("/api/feedback", {
+        const res = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+          body: JSON.stringify(body),
         });
-        const json = await res.json();
-        if (json.error) throw new Error(json.error);
-        appendMessage("assistant", json.reply, json.suggestions);
+
+        if (!res.ok) {
+          const json = await res.json().catch(() => ({}));
+          throw new Error(json.error || `Server error ${res.status}`);
+        }
+
+        const reader  = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          buffer = lines.pop();
+          for (const line of lines) {
+            if (!line.startsWith("data: ")) continue;
+            try {
+              handleSSEEvent(JSON.parse(line.slice(6)));
+            } catch { /* skip malformed */ }
+          }
+        }
       } catch (err) {
+        removeLoadingSkeleton();
         showError(err.message);
       } finally {
-        showLoading(false);
+        setStreaming(false);
       }
     }
 
+    function handleSSEEvent(event) {
+      if (event.type === "searching") {
+        loadingText.textContent = `Searching for "${event.query}"…`;
+      } else if (event.type === "done") {
+        removeLoadingSkeleton();
+        appendMessage("assistant", event.reply, event.suggestions);
+      } else if (event.type === "error") {
+        removeLoadingSkeleton();
+        showError(event.message);
+      }
+    }
+
+    // ── Skeleton placeholder ───────────────────────────────────────────────
+    function showLoadingSkeleton() {
+      removeLoadingSkeleton();
+      const wrapper = document.createElement("div");
+      wrapper.id = "skeleton-wrapper";
+      wrapper.className = "message assistant";
+      const grid = document.createElement("div");
+      grid.className = "suggestions-grid";
+      for (let i = 0; i < 3; i++) {
+        const card = document.createElement("div");
+        card.className = "gift-card skeleton-card";
+        card.innerHTML = `
+          <div class="card-header-row">
+            <div class="skel skel-badge"></div>
+            <div class="skel skel-title"></div>
+          </div>
+          <div class="skel skel-line"></div>
+          <div class="skel skel-line short"></div>
+          <div class="skel skel-why-block"></div>
+          <div class="skel skel-meta"></div>
+          <div class="skel skel-actions"></div>`;
+        grid.appendChild(card);
+      }
+      wrapper.appendChild(grid);
+      messagesEl.appendChild(wrapper);
+      wrapper.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+
+    function removeLoadingSkeleton() {
+      document.getElementById("skeleton-wrapper")?.remove();
+    }
+
     // ── Render ─────────────────────────────────────────────────────────────
+    function stripSuggestionsJson(text) {
+      text = text.replace(/```(?:json)?\s*/g, "").replace(/```/g, "");
+      const idx = text.indexOf('{"suggestions"');
+      if (idx === -1) return text;
+      let depth = 0, end = idx;
+      for (let i = idx; i < text.length; i++) {
+        if (text[i] === "{") depth++;
+        else if (text[i] === "}") { depth--; if (depth === 0) { end = i + 1; break; } }
+      }
+      return (text.slice(0, idx) + text.slice(end)).trim();
+    }
+
     function appendMessage(role, text, suggestions) {
       const wrapper = document.createElement("div");
-      wrapper.className = `message ${role}`;
+      wrapper.className = `message ${role} fade-in`;
 
       if (role === "user") {
         wrapper.textContent = text;
         messagesEl.appendChild(wrapper);
+        wrapper.scrollIntoView({ behavior: "smooth", block: "end" });
         return;
       }
 
-      // Strip the raw JSON block from display text
-      const displayText = text.replace(/\{"suggestions"[\s\S]*?\}\s*\}/, "").trim();
+      // Assistant header
+      const hdr = document.createElement("div");
+      hdr.className = "assistant-header";
+      hdr.innerHTML = `<span class="assistant-avatar">🎁</span><span class="assistant-label">Gift Whisperer</span>`;
+      wrapper.appendChild(hdr);
+
+      const displayText = stripSuggestionsJson(text);
       if (displayText) {
         const p = document.createElement("p");
         p.className = "assistant-text";
@@ -173,39 +292,59 @@
       if (suggestions && suggestions.length > 0) {
         const grid = document.createElement("div");
         grid.className = "suggestions-grid";
-        suggestions.forEach((s) => {
-          grid.appendChild(buildCard(s));
-        });
+        suggestions.forEach((s, i) => grid.appendChild(buildCard(s, i + 1)));
         wrapper.appendChild(grid);
+      } else if (!displayText) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.innerHTML = `<span class="empty-icon">🔍</span><p>Couldn't find matching products. Try adjusting your requirements or asking again.</p>`;
+        wrapper.appendChild(empty);
       }
 
       messagesEl.appendChild(wrapper);
       wrapper.scrollIntoView({ behavior: "smooth", block: "end" });
     }
 
-    function buildCard(s) {
+    function buildCard(s, index = 1) {
       const card = document.createElement("div");
       card.className = "gift-card";
+      card.style.animationDelay = `${(index - 1) * 80}ms`;
+
+      // Header row: badge + name
+      const headerRow = document.createElement("div");
+      headerRow.className = "card-header-row";
+
+      const badge = document.createElement("span");
+      badge.className = "card-badge";
+      badge.textContent = index;
+      headerRow.appendChild(badge);
 
       const name = document.createElement("h3");
       name.textContent = s.name;
-      card.appendChild(name);
+      headerRow.appendChild(name);
+      card.appendChild(headerRow);
 
       const desc = document.createElement("p");
       desc.className = "card-desc";
       desc.textContent = s.description;
       card.appendChild(desc);
 
-      const why = document.createElement("p");
-      why.className = "card-why";
-      why.textContent = `Why: ${s.why}`;
-      card.appendChild(why);
+      if (s.why) {
+        const why = document.createElement("div");
+        why.className = "card-why";
+        why.innerHTML = `<span class="why-icon">💡</span><span>${s.why}</span>`;
+        card.appendChild(why);
+      }
+
+      const meta = document.createElement("div");
+      meta.className = "card-meta";
 
       if (s.price_estimate) {
         const price = document.createElement("span");
         price.className = "card-price";
-        price.textContent = s.price_estimate;
-        card.appendChild(price);
+        const p = String(s.price_estimate);
+        price.textContent = p.startsWith("$") ? p : `$${p}`;
+        meta.appendChild(price);
       }
 
       if (s.url) {
@@ -213,61 +352,74 @@
         link.href = s.url;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
-        link.className = "card-link";
-        link.textContent = "View Product →";
-        card.appendChild(link);
+        link.className = "card-link-btn";
+        link.textContent = "View →";
+        meta.appendChild(link);
       }
 
-      // Action buttons
+      if (meta.children.length) card.appendChild(meta);
+
       const actions = document.createElement("div");
       actions.className = "card-actions";
 
-      const loveBtn = makeActionBtn("❤️ Love it", "love", s.name);
-      const rejectBtn = makeActionBtn("✗ Skip", "reject", s.name);
-      const ownsBtn = makeActionBtn("Already own it", "owns", s.name);
+      const labels = {
+        love:   "❤️ Loved — finding similar ideas…",
+        reject: "✗ Skipped",
+        owns:   "Already owned — swapping it out…",
+      };
 
-      actions.appendChild(loveBtn);
-      actions.appendChild(rejectBtn);
-      actions.appendChild(ownsBtn);
+      ["love", "reject", "owns"].forEach((action) => {
+        const btnLabel = action === "love" ? "❤️ Love it"
+                       : action === "reject" ? "✗ Skip"
+                       : "Already own";
+        const btn = document.createElement("button");
+        btn.textContent = btnLabel;
+        btn.className = `action-btn action-${action}`;
+        btn.addEventListener("click", () => {
+          if (isStreaming) return;
+          card.classList.add(`card-state-${action}`);
+          actions.innerHTML = `<span class="card-status card-status-${action}">${labels[action]}</span>`;
+          streamSSE("/api/feedback", { action, item_name: s.name });
+        });
+        actions.appendChild(btn);
+      });
+
       card.appendChild(actions);
-
       return card;
     }
 
-    function makeActionBtn(label, action, itemName) {
-      const btn = document.createElement("button");
-      btn.textContent = label;
-      btn.className = `action-btn action-${action}`;
-      btn.addEventListener("click", () => {
-        // Disable all buttons on this card after one click
-        btn.closest(".card-actions").querySelectorAll("button").forEach(b => b.disabled = true);
-        callFeedback({ action, item_name: itemName });
-      });
-      return btn;
-    }
-
     // ── Helpers ────────────────────────────────────────────────────────────
-    function showLoading(on) {
+    function setStreaming(on) {
+      isStreaming    = on;
+      sendBtn.disabled   = on;
+      userInput.disabled = on;
       loadingEl.classList.toggle("hidden", !on);
-      sendBtn.disabled = on;
+      if (!on) loadingText.textContent = "Searching for the right gifts…";
     }
 
     function showError(msg) {
+      clearTimeout(errorTimer);
       if (!msg) {
         errorBanner.classList.add("hidden");
         errorBanner.textContent = "";
       } else {
         errorBanner.textContent = msg;
         errorBanner.classList.remove("hidden");
+        errorTimer = setTimeout(() => errorBanner.classList.add("hidden"), 6000);
       }
     }
 
+    // ── Restart ────────────────────────────────────────────────────────────
     document.getElementById("restart-btn").addEventListener("click", async () => {
+      if (!confirm("Start over? Your current conversation will be lost.")) return;
       await fetch("/api/reset", { method: "POST" });
       chatSection.classList.add("hidden");
       formSection.classList.remove("hidden");
+      document.body.classList.remove("chat-active");
       messagesEl.innerHTML = "";
       document.getElementById("profile-form").reset();
+      document.querySelectorAll(".budget-chip").forEach(c => c.classList.remove("active"));
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   </script>
 </body>
